@@ -14,7 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Configuration // IoC 빈(bean)을 등록
 @EnableWebSecurity // 해당 클래스(스프링 시큐리티 필터)가 스프링 필터 체인에 등록됨
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true) // 특정 주소 접근시 권한 및 인증을 위한 어노테이션 활성화
+// securedEnabled == 특정 주소 접근시 권한 및 인증을 위한 어노테이션(@secured) 활성화
+//prePostEnabled == @preAuthorize 와 @postAuthorize 활성화
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     //해당 메서드의 리턴 오프젝트를 IOC로 등록
@@ -31,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.authorizeRequests()
 
                 // /user로 들어오면 로그인이 필요하도록
-                .antMatchers("/user/**").authenticated()
+                .antMatchers("/user/**").authenticated() //인증만 되면 들어갈 수 있따는 것
 
                 // /manager로 들어오면 로그인 + ROLE_ADMIN과 ROLE_MANAGER의 권한을 받은 애들만 접속 가능하도록
                 .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")

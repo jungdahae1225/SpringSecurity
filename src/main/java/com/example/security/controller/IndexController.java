@@ -5,6 +5,7 @@ import com.example.security.model.User;
 import com.example.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -70,5 +71,16 @@ public class IndexController {
         return "redirect:/loginForm";
     }
 
+    @Secured("ROLE_ADMIN") //설정 파일 건들이지 않고 특정 메서드에 직접 권한 부여 하고 싶을 때
+    @GetMapping("/info")
+    public @ResponseBody String info(){
+        return "개인정보";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") //설정 파일 건들이지 않고 특정 메서드에 직접 "여러"권한 부여 하고 싶을 때
+    @GetMapping("/data")
+    public @ResponseBody String data(){
+        return "data정보";
+    }
 
 }

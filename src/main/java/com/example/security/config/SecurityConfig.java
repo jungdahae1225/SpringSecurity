@@ -18,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     //해당 메서드의 리턴 오프젝트를 IOC로 등록
-    //=>따라서 이 메서드 빈 등록 후 어디에서나 해당 메서드 사용 가능 
+    //=>따라서 이 메서드 빈 등록 후 어디에서나 해당 메서드 사용 가능
     @Bean
     public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
@@ -44,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
                 .and()
                 .formLogin()
-                .loginPage("/loginForm"); //자체 로그인 페아지를 연결해준다.;
-                //.loginProcessingUrl("/loginProc")
-                //.defaultSuccessUrl("/");
+                .loginPage("/loginForm") //자체 로그인 페아지를 연결해준다.;
+                .loginProcessingUrl("/login") //login주소가 호출 되면 시큐리티가 낚아채서 대신 로그인 진행
+                .defaultSuccessUrl("/");//로그인이 완료 되면 main페이지로 가게 한다. + /loginForm으로 와서 login하면 /로. 다른 페이지로 갔다가 막혀서 로그인하러 왓으면 원래 접근하려했던 페이지로 다시 가게 도와줌
     }
 }

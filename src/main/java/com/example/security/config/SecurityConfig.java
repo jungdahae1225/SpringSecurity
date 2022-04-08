@@ -48,6 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .formLogin()
                 .loginPage("/loginForm") //자체 로그인 페아지를 연결해준다.;
                 .loginProcessingUrl("/login") //login주소가 호출 되면 시큐리티가 낚아채서 대신 로그인 진행
-                .defaultSuccessUrl("/");//로그인이 완료 되면 main페이지로 가게 한다. + /loginForm으로 와서 login하면 /로. 다른 페이지로 갔다가 막혀서 로그인하러 왓으면 원래 접근하려했던 페이지로 다시 가게 도와줌
+                .defaultSuccessUrl("/")//로그인이 완료 되면 main페이지로 가게 한다. + /loginForm으로 와서 login하면 /로. 다른 페이지로 갔다가 막혀서 로그인하러 왓으면 원래 접근하려했던 페이지로 다시 가게 도와줌
+                .and()
+                .oauth2Login()
+                .loginPage("/loginForm");//여기까지 하면 구글 로그인 접근까지 가능.
     }
 }

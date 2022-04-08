@@ -20,6 +20,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     private UserRepository userRepository;
 
     // 구글로부터 받은 userRequest 데이터에 대한 후처리 함수
+    //userRequest에는
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest); // google의 회원 프로필 조회

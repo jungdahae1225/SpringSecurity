@@ -54,11 +54,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .loginPage("/loginForm") //자체 로그인 페아지를 연결해준다.;
                 .loginProcessingUrl("/login") //login주소가 호출 되면 시큐리티가 낚아채서 대신 로그인 진행
                 .defaultSuccessUrl("/")//로그인이 완료 되면 main페이지로 가게 한다. + /loginForm으로 와서 login하면 /로. 다른 페이지로 갔다가 막혀서 로그인하러 왓으면 원래 접근하려했던 페이지로 다시 가게 도와줌
+                
                 .and()
                 .oauth2Login()
                 .loginPage("/loginForm")//여기까지 하면 구글 로그인 접근까지 가능.
-                .userInfoEndpoint()
-                .userService(principalOauth2UserService);
+                .userInfoEndpoint()//구글 로그인으로 정보 얻어온 후 우리 사이트에서 이 정보를 사용하기 위한 후처리
+                //1.구글로부터 코드를 받고(해당사용자가 구글 사람임을 인증 받음)
+                // -> 2.이 코드를 통해서 엑세스 토큰을 받음 ->3.시큐리티 서버가 구글에서 사용자의 프로필 정보를 사용할 수 있는 권한을 얻게 됨.
+                //4.그 정보를 토대로 회왼가입을 자동으로 진행 || 받은 정보 + 기타 정보로 우리가 수동으로 회원가입
+                //근데 이 oauth 라이브러리를 쓰면 1번과정 알아서 하고 바로 2번 + 3번의 엑세스 토큰 + 사용자 프로필 정보를 받아옴 => 편리!!
+                .userService(principalOauth2UserService); //.userService에 들어와하 하는 파람은 DefaultOAuth2UserService타입. 따라서 이를 상속한 principalOauth2UserService을 만들어 넣어준다.
+
 
     }
 }

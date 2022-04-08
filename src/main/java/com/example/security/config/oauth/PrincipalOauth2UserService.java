@@ -30,6 +30,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         // token을 통해 응답받은 회원정보
         System.out.println("oAuth2User : " + oAuth2User);
 
-        return processOAuth2User(userRequest, oAuth2User);
+        return super.loadUser(userRequest);
     }
 }

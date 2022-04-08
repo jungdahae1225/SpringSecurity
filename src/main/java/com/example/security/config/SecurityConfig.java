@@ -1,5 +1,7 @@
 package com.example.security.config;
 
+import com.example.security.config.oauth.PrincipalOauth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //prePostEnabled == @preAuthorize 와 @postAuthorize 활성화
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+
+    @Autowired
+    private PrincipalOauth2UserService principalOauth2UserService;
 
     //해당 메서드의 리턴 오프젝트를 IOC로 등록
     //=>따라서 이 메서드 빈 등록 후 어디에서나 해당 메서드 사용 가능
@@ -51,6 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .defaultSuccessUrl("/")//로그인이 완료 되면 main페이지로 가게 한다. + /loginForm으로 와서 login하면 /로. 다른 페이지로 갔다가 막혀서 로그인하러 왓으면 원래 접근하려했던 페이지로 다시 가게 도와줌
                 .and()
                 .oauth2Login()
-                .loginPage("/loginForm");//여기까지 하면 구글 로그인 접근까지 가능.
+                .loginPage("/loginForm")//여기까지 하면 구글 로그인 접근까지 가능.
+                .userInfoEndpoint()
+                .userService(principalOauth2UserService);
+
     }
 }
